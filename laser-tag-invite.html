@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laser Tag Party Invitation</title>
+<style>
+ body {
+ font-family: Arial, sans-serif;
+ background-color: #000;
+ color: #fff;
+ text-align: center;
+ margin: 0;
+ padding: 0;
+ }
+ #gameCanvas {
+ background-color: #111;
+ display: block;
+ margin: 20px auto;
+ border: 2px solid #44f;
+ }
+ .btn {
+ background: #44f;
+ color: white;
+ padding: 10px 20px;
+ border: none;
+ border-radius: 5px;
+ font-size: 18px;
+ cursor: pointer;
+ margin-top: 20px;
+ }
+</style>
+</head>
+<body>
+<h1>Zaproszenie na urodziny Laser Tag!</h1>
+<canvas id="gameCanvas" width="320" height="480"></canvas>
+<button class="btn" id="startBtn">Start</button>
+<p id="message"></p>
+<script>
+ const canvas = document.getElementById('gameCanvas');
+ const ctx = canvas.getContext('2d');
+ const startBtn = document.getElementById('startBtn');
+ const message = document.getElementById('message');
+ const targetCount = 5;
+ let targets = [];
+ let score = 0;
+
+ function rand(min, max) {
+ return Math.random() * (max - min) + min;
+ }
+
+ function createTargets() {
+ targets = [];
+ for (let i = 0; i < targetCount; i++) {
+ targets.push({
+ x: rand(20, canvas.width - 20),
+ y: rand(20, canvas.height - 20),
+ r: 15,
+ hit: false,
+ });
+ }
+ }
+
+ function drawTargets() {
+ ctx.clearRect(0, 0, canvas.width, canvas.height);
+ ctx.fillStyle = '#f44';
+ for (const t of targets) {
+ if (!t.hit) {
+ ctx.beginPath();
+ ctx.arc(t.x, t.y, t.r, 0, Math.PI * 2);
+ ctx.fill();
+ }
+ }
+ }
+
+ canvas.addEventListener('click', function(e) {
+ if (score === 0 && targets.length === 0) return; // game not started
+ const rect = canvas.getBoundingClientRect();
+ const x = e.clientX - rect.left;
+ const y = e.clientY - rect.top;
+ for (const t of targets) {
+ const dist = Math.hypot(x - t.x, y - t.y);
+ if (!t.hit && dist <= t.r) {
+ t.hit = true;
+ score++;
+ if (score === targetCount) {
+ message.textContent = "Gratulacje! Zapraszam na urodziny w Laser Tag! 25 maja, godz. 17:00.";
+ break;
+ }
+ }
+ drawTargets();
+ });
+
+ startBtn.addEventListener('click', function() {
+ score = 0;
+ message.textContent = '';
+ createTargets();
+ drawTargets();
+ });
+</script>
+</body>
+</html>
