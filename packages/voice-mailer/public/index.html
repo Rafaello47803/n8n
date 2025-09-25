@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="pl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Voice Mailer</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="container">
+      <h1>Voice Mailer</h1>
+      <p>Nagraj wiadomość głosową i wyślij jej transkrypt na e-mail.</p>
+
+      <div class="buttons">
+        <button id="recordButton" class="record-button" aria-pressed="false">
+          <span class="icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" role="presentation">
+              <path d="M12 15a3 3 0 0 0 3-3V6a3 3 0 1 0-6 0v6a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 14 0h-2zm-5 8a1 1 0 0 0 1-1v-2h-2v2a1 1 0 0 0 1 1z" />
+            </svg>
+          </span>
+          <span class="label">Rozpocznij nagrywanie</span>
+        </button>
+
+        <button id="transcribeButton" class="transcribe-button" disabled>
+          Transkrybuj i wyślij
+        </button>
+      </div>
+
+      <div id="status" class="status" role="status" aria-live="polite"></div>
+      <section class="transcript" aria-live="polite">
+        <h2>Ostatni transkrypt</h2>
+        <pre id="transcript" tabindex="0"></pre>
+      </section>
+    </main>
+
+    <script src="app.js" type="module"></script>
+  </body>
+</html>
